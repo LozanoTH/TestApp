@@ -1,11 +1,13 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, useColorScheme, View } from "react-native";
 import { WebView } from "react-native-webview";
 export default function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isDark ? styles.containerDark : styles.containerLight]}>
       <WebView
         originWhitelist={["*"]}
-        source={{ html: htmlContent }}
+        source={{ html: getHtmlContent(isDark) }}
         style={styles.webview}
       />
     </View>
@@ -15,7 +17,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+  },
+  containerLight: {
+    backgroundColor: "#FFFFFF",
+  },
+  containerDark: {
+    backgroundColor: "#0B0B0B",
   },
   webview: {
     flex: 1,
@@ -24,7 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const htmlContent = `
+const getHtmlContent = (isDark: boolean) => `
 <!doctype html>
 <html lang="es">
   <head>
@@ -35,8 +42,8 @@ const htmlContent = `
         margin: 0;
         padding: 0;
         height: 100%;
-        background: transparent;
-        color: #ffffff;
+        background: ${isDark ? "#0B0B0B" : "#FFFFFF"};
+        color: ${isDark ? "#FFFFFF" : "#111111"};
         font-family: Arial, Helvetica, sans-serif;
       }
       .wrap {
@@ -48,8 +55,8 @@ const htmlContent = `
       .card {
         width: 90%;
         max-width: 360px;
-        background: rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.08);
+        background: ${isDark ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.9)"};
+        border: 1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"};
         border-radius: 14px;
         padding: 20px;
         text-align: center;
@@ -64,8 +71,8 @@ const htmlContent = `
         padding: 10px 14px;
         border-radius: 10px;
         border: none;
-        background: #ffffff;
-        color: #111111;
+        background: ${isDark ? "#FFFFFF" : "#111111"};
+        color: ${isDark ? "#111111" : "#FFFFFF"};
         font-weight: 600;
       }
     </style>
