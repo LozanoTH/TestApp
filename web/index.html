@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #111111;
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --card-border: rgba(0, 0, 0, 0.08);
+        --btn-bg: #111111;
+        --btn-fg: #ffffff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0b0b;
+          --fg: #ffffff;
+          --card-bg: rgba(0, 0, 0, 0.45);
+          --card-border: rgba(255, 255, 255, 0.08);
+          --btn-bg: #ffffff;
+          --btn-fg: #111111;
+        }
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .wrap {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card {
+        width: 90%;
+        max-width: 360px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 8px;
+      }
+      p { margin: 0; opacity: 0.9; }
+      button {
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        background: var(--btn-bg);
+        color: var(--btn-fg);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Hola desde HTML</h1>
+        <p>Esto se renderiza dentro del WebView.</p>
+        <button>Boton HTML</button>
+      </div>
+    </div>
+  </body>
+</html>
