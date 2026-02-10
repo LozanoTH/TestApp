@@ -1,7 +1,10 @@
 name: Android Release APK
 
-on:
+"on":
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build-android:
