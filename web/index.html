@@ -2,72 +2,188 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
     <style>
       :root {
         --bg: #ffffff;
-        --fg: #111111;
-        --card-bg: rgba(255, 255, 255, 0.9);
-        --card-border: rgba(0, 0, 0, 0.08);
-        --btn-bg: #111111;
-        --btn-fg: #ffffff;
+        --text: #202124;
+        --blue: #4285f4;
+        --red: #ea4335;
+        --yellow: #fbbc05;
+        --green: #34a853;
       }
+
       @media (prefers-color-scheme: dark) {
         :root {
           --bg: #0b0b0b;
-          --fg: #ffffff;
-          --card-bg: rgba(0, 0, 0, 0.45);
-          --card-border: rgba(255, 255, 255, 0.08);
-          --btn-bg: #ffffff;
-          --btn-fg: #111111;
+          --text: #f1f3f4;
         }
       }
-      html, body {
+
+      html,
+      body {
         margin: 0;
-        padding: 0;
         height: 100%;
+        overflow: hidden;
         background: var(--bg);
-        color: var(--fg);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: "Product Sans", "Segoe UI", Arial, sans-serif;
       }
-      .wrap {
-        min-height: 100%;
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 18px;
+        border-radius: 2px;
+        opacity: 0.9;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fall {
+        from {
+          transform: translateY(-10vh) rotate(0deg);
+        }
+        to {
+          transform: translateY(120vh) rotate(360deg);
+        }
+      }
+
+      @keyframes burst {
+        from {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 1;
+        }
+        to {
+          transform: translate(var(--dx), var(--dy)) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        20% { transform: translateX(-6px); }
+        40% { transform: translateX(6px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+        100% { transform: translateX(0); }
+      }
+
+      .center {
+        position: absolute;
+        inset: 0;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .card {
-        width: 90%;
-        max-width: 360px;
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 14px;
-        padding: 20px;
-        text-align: center;
-      }
-      h1 {
-        font-size: 22px;
-        margin: 0 0 8px;
-      }
-      p { margin: 0; opacity: 0.9; }
-      button {
-        margin-top: 12px;
-        padding: 10px 14px;
-        border-radius: 10px;
-        border: none;
-        background: var(--btn-bg);
-        color: var(--btn-fg);
+
+      .title {
+        font-size: 34px;
         font-weight: 600;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.75);
+        padding: 10px 18px;
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .title.shake {
+        animation: shake 260ms ease-in-out;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .title {
+          background: rgba(0, 0, 0, 0.55);
+        }
       }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="card">
-        <h1>Hola desde HTML</h1>
-        <p>Esto se renderiza dentro del WebView.</p>
-        <button>Boton HTML</button>
-      </div>
+    <div class="center">
+      <div class="title" id="title">welcome :)</div>
     </div>
+    <script>
+      const COUNT = 120;
+      const colors = [
+        "var(--blue)",
+        "var(--red)",
+        "var(--yellow)",
+        "var(--green)",
+      ];
+
+      for (let i = 0; i < COUNT; i++) {
+        const b = document.createElement("div");
+        b.className = "confetti";
+
+        const size = 6 + Math.random() * 8;
+        b.style.width = size + "px";
+        b.style.height = size * 1.6 + "px";
+
+        b.style.left = Math.random() * 100 + "vw";
+        b.style.top = "-10vh";
+        b.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        b.style.animationDuration = 6 + Math.random() * 6 + "s";
+        b.style.animationDelay = -Math.random() * 8 + "s";
+        b.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+        document.body.appendChild(b);
+      }
+
+      const title = document.getElementById("title");
+      let lastTap = 0;
+      let tapCount = 0;
+
+      function burstConfetti() {
+        const burstCount = 240;
+        const rect = title.getBoundingClientRect();
+        const originX = rect.left + rect.width / 2;
+        const originY = rect.top + rect.height / 2;
+        for (let i = 0; i < burstCount; i++) {
+          const b = document.createElement("div");
+          b.className = "confetti";
+
+          const size = 8 + Math.random() * 10;
+          b.style.width = size + "px";
+          b.style.height = size * 1.6 + "px";
+
+          b.style.left = originX + "px";
+          b.style.top = originY + "px";
+          b.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 140 + Math.random() * 360;
+          const dx = Math.cos(angle) * distance;
+          const dy = Math.sin(angle) * distance;
+          b.style.setProperty("--dx", dx + "px");
+          b.style.setProperty("--dy", dy + "px");
+          b.style.animation = `burst ${2.2 + Math.random() * 1.8}s ease-out forwards`;
+
+          document.body.appendChild(b);
+          setTimeout(() => b.remove(), 6000);
+        }
+      }
+
+      title.addEventListener("click", () => {
+        const now = Date.now();
+        title.classList.remove("shake");
+        void title.offsetWidth;
+        title.classList.add("shake");
+        if (now - lastTap < 400) {
+          tapCount += 1;
+        } else {
+          tapCount = 1;
+        }
+        lastTap = now;
+
+        if (tapCount >= 3) {
+          tapCount = 0;
+          burstConfetti();
+        }
+      });
+    </script>
   </body>
 </html>

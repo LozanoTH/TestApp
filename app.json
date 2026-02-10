@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "app webview",
+    "name": "nexhax",
     "slug": "prueba",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "prueba",
@@ -30,8 +30,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/images/splash-transparent.png",
+          "imageWidth": 1,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
