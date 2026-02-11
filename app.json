@@ -4,7 +4,7 @@
     "slug": "prueba",
     "version": "1.0.5",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon.svg",
     "scheme": "prueba",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
